@@ -51,7 +51,7 @@ jobs:
 
   deploy:
     needs: build-and-push
-    if: github.ref == 'refs/heads/master' && env.DEPLOY_ENABLED == 'true'
+    if: github.ref == 'refs/heads/master' && vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
