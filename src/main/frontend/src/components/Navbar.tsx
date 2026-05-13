@@ -45,7 +45,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="border-b border-gray-800 bg-gray-950">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-gray-800 bg-gray-950">
         <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <a className="text-lg font-russo font-bold text-gray-100" href="/#top">
             Gym<span className="text-red-700">Stack</span>
