@@ -9,6 +9,7 @@ env:
   FRONTEND_IMAGE: gymstack-frontend
   IMAGE_TAG: ${{ github.sha }}
   PUBLIC_API_BASE_URL: ${{ vars.PUBLIC_API_BASE_URL || 'http://localhost:9999' }}
+  DEPLOY_ENABLED: ${{ vars.DEPLOY_ENABLED || 'false' }}
 
 jobs:
   build-and-push:
@@ -50,14 +51,13 @@ jobs:
 
   deploy:
     needs: build-and-push
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && env.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Copy compose file to server
-        if: ${{ secrets.DEPLOY_HOST != '' }}
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DEPLOY_HOST }}
@@ -67,7 +67,6 @@ jobs:
           target: "~/gymstack"
 
       - name: Deploy with Docker Compose
-        if: ${{ secrets.DEPLOY_HOST != '' }}
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DEPLOY_HOST }}
